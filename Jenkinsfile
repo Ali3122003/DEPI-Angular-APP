@@ -11,13 +11,13 @@ pipeline {
 
                   dir('backend') {
                    sh "echo Build backend image ... "
-                   sh "docker build -t aliahmed312/backend:$BUILD_NUMBER ."
+                   sh "docker build -t aliahmed312/backend:v.$BUILD_NUMBER ."
 
                   }
                    
                   dir('front-end') {
                    sh "echo Build frontend image ... "
-                   sh "docker build -t aliahmed312/frontend:$BUILD_NUMBER ."
+                   sh "docker build -t aliahmed312/frontend:v.$BUILD_NUMBER ."
 
                   }
 
