@@ -31,6 +31,8 @@ pipeline {
          stage('Push docker images ...'){
                steps {
                      
+                  sh "echo Push images ... "  
+                     
                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                   sh  "docker login -u $USER -p $PASS"
 
@@ -45,7 +47,8 @@ pipeline {
 
          stage('Deployment ...'){
                steps {
-                        
+
+               sh "echo Deployment ... "
                
                sh "sed -i 's|image:.*|image: aliahmed312/backend:v.$BUILD_NUMBER|g' k8s/backend.yml"
 
@@ -67,4 +70,3 @@ pipeline {
 
    }
 }
-
