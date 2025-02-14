@@ -62,8 +62,16 @@ pipeline {
 
                }
 
+               }
 
-
+               post {
+                    success {
+                          slackSend color: "good", message: "${BUILD_TAG} Was Successful"
+                    }
+                    failure {
+                          slackSend color: "danger", message: "${BUILD_TAG} Was Failure"
+                    }
+                     
                }
                      
          }
