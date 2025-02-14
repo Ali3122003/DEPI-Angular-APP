@@ -34,8 +34,8 @@ pipeline {
                withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                   sh  "docker login -u $USER -p $PASS"
 
-                  sh "docker push aliahmed312/frontend:$BUILD_NUMBER "
-                  sh "docker push aliahmed312/backend:$BUILD_NUMBER "
+                  sh "docker push aliahmed312/frontend:v.$BUILD_NUMBER "
+                  sh "docker push aliahmed312/backend:v.$BUILD_NUMBER "
                } 
 
                }
@@ -45,11 +45,13 @@ pipeline {
 
          stage('Deployment ...'){
                steps {
+                        
                
-               sh "sed -i 's/image: .*/image: aliahmed312/backend:$BUILD_NUMBER/g' k8s/backend.yml"
-               sh "sed -i 's/image: .*/image: aliahmed312/frontend:$BUILD_NUMBER/g' k8s/frontend.yml"
-                
+               sh "sed -i 's|image:.*|image: aliahmed312/backend:v.$BUILD_NUMBER|g' k8s/backend.yml"
 
+               sh "sed -i 's|image:.*|image: aliahmed312/frontend:v.$BUILD_NUMBER|g' k8s/frontend.yml"
+  
+                
                withCredentials([file(credentialsId: 'k8s-config', variable: 'k8s')]) {
                   
                sh "kubectl --kubeconfig=$k8s apply -f k8s/backend.yml"   
@@ -65,3 +67,4 @@ pipeline {
 
    }
 }
+
